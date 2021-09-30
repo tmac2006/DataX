@@ -1,0 +1,28 @@
+pipeline {
+ 
+  agent {
+    node {
+      label 'master'
+    }
+  }
+    // 拉取代码
+  stages {
+    stage('GetCode') {
+      steps {
+        sleep 5
+      }
+    }
+ 
+    // 代码打包
+    stage('Maven Build') {
+        steps {
+          sh '''
+          #export JAVA_HOME==/usr/local/jdk
+          cd /var/lib/jenkins/workspace/DataX
+          /opt/app/maven/bin/mvn -U clean package assembly:assembly -Dmaven.test.skip=true
+          '''
+          println('部署完成！')
+        }
+    }
+  }
+}
